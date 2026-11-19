@@ -5,13 +5,13 @@ import { authService } from "../services/auth";
 import { mensajeError } from "../lib/errores";
 
 export function LoginPage() {
-  const [email, setEmail] = useState("");
+  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [cargando, setCargando] = useState(false);
   const [error, setError] = useState("");
-  
+
   const navigate = useNavigate();
-  const login = useAuthStore((state) => state.login);
+  const login = useAuthStore((s) => s.login);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -19,12 +19,11 @@ export function LoginPage() {
     setError("");
 
     try {
-      // La API puede tardar ~50s en despertar, el usuario lo verá en el botón
-      const { token, usuario } = await authService.login(email, password);
+      const { token, usuario } = await authService.login(username, password);
       login(token, usuario);
       navigate("/inicio");
     } catch (err) {
-      setError(mensajeError(err, "Credenciales incorrectas o error del servidor"));
+      setError(mensajeError(err, "Credenciales incorrectas"));
     } finally {
       setCargando(false);
     }
@@ -33,8 +32,8 @@ export function LoginPage() {
   return (
     <div className="flex min-h-screen items-center justify-center bg-slate-50 px-4">
       <div className="w-full max-w-md rounded-xl bg-white p-8 shadow-lg border border-slate-200">
-        <h1 className="text-2xl font-bold text-center text-marca-700 mb-2">
-          La Escuelita de Cristian
+        <h1 className="text-2xl font-bold text-center text-marca-700 mb-1">
+          🎓 La Escuelita de Cristian
         </h1>
         <p className="text-center text-slate-600 mb-6">Inicia sesión para continuar</p>
 
@@ -46,14 +45,14 @@ export function LoginPage() {
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label className="block text-sm font-medium text-slate-700 mb-1">Correo</label>
+            <label className="block text-sm font-medium text-slate-700 mb-1">Usuario</label>
             <input
-              type="email"
+              type="text"
               required
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
               className="w-full rounded-lg border border-slate-300 px-3 py-2 focus:border-marca-500 focus:ring-2 focus:ring-marca-100 outline-none"
-              placeholder="estudiante@ejemplo.com"
+              placeholder="tu_usuario"
             />
           </div>
 

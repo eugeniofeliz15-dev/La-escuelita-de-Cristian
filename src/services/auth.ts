@@ -1,24 +1,40 @@
 import { api } from "../lib/axios";
+import type { ApiResponse } from "../types/curso";
 import type { Usuario } from "../types/usuario";
 
-interface LoginResponse {
-  token: string;
-  usuario: Usuario;
-}
-
-interface RegistroResponse {
+interface AuthData {
   token: string;
   usuario: Usuario;
 }
 
 export const authService = {
-  login: async (email: string, password: string): Promise<LoginResponse> => {
-    const response = await api.post<LoginResponse>("/auth/login", { email, password });
-    return response.data;
+  login: async (username: string, password: string): Promise<AuthData> => {
+    const response = await api.post<ApiResponse<AuthData>>("/auth/login", {
+      username,
+      password,
+    });
+    return response.data.data;
   },
 
-  registro: async (nombre: string, email: string, password: string): Promise<RegistroResponse> => {
-    const response = await api.post<RegistroResponse>("/auth/registro", { nombre, email, password });
-    return response.data;
+  registro: async (
+    username: string,
+    password: string,
+    nombre: string,
+    apellido: string,
+    email: string,
+  ): Promise<AuthData> => {
+    const response = await api.post<ApiResponse<AuthData>>("/auth/register", {
+      username,
+      password,
+      nombre,
+      apellido,
+      email,
+    });
+    return response.data.data;
+  },
+
+  getPerfil: async (): Promise<Usuario> => {
+    const response = await api.get<ApiResponse<Usuario>>("/auth/perfil");
+    return response.data.data;
   },
 };

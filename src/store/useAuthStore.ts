@@ -17,6 +17,6 @@ export const useAuthStore = create<AuthState>()(
       login: (token, usuario) => set({ token, usuario }),
       logout: () => set({ token: null, usuario: null }),
     }),
-    { name: "escuelita-auth-storage" } // Nombre único para el localStorage
-  )
+    { name: "escuelita-cristian-auth" },
+  ),
 );

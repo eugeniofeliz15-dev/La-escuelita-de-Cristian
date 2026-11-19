@@ -3,7 +3,7 @@ import { mensajeError } from "../lib/errores";
 
 export function useApi<T>(
   pedir: () => Promise<T>,
-  dependencias: unknown[] = []
+  dependencias: unknown[] = [],
 ) {
   const [data, setData] = useState<T | null>(null);
   const [cargando, setCargando] = useState(true);

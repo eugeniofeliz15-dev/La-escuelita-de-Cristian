@@ -2,6 +2,7 @@ export interface Docente {
   id: number;
   nombre: string;
   apellido: string;
+  fotoUrl: string | null;
 }
 
 export interface Curso {
@@ -13,13 +14,19 @@ export interface Curso {
   cupo: number;
   inscritos: number;
   docente: Docente | null;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface ApiMeta {
+  total: number;
+  page: number;
+  limit: number;
 }
 
 export interface ApiResponse<T> {
+  success: boolean;
+  message?: string;
   data: T;
-  meta?: {
-    total: number;
-    page: number;
-    limit: number;
-  };
+  meta?: ApiMeta;
 }
